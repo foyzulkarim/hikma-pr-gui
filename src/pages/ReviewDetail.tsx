@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -115,7 +114,7 @@ const ReviewDetail = () => {
         </div>
 
         {/* Status and Summary Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8">
           <Card className="bg-white shadow-sm">
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
@@ -169,11 +168,35 @@ const ReviewDetail = () => {
               </div>
             </CardContent>
           </Card>
+
+          <Card className="bg-white shadow-sm">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs sm:text-sm text-slate-600">Lines Added</p>
+                  <p className="text-xl sm:text-2xl font-bold text-green-600">+{review.linesAdded}</p>
+                </div>
+                <Plus className="h-6 w-6 sm:h-8 sm:w-8 text-green-600" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white shadow-sm">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs sm:text-sm text-slate-600">Lines Removed</p>
+                  <p className="text-xl sm:text-2xl font-bold text-red-600">-{review.linesRemoved}</p>
+                </div>
+                <Minus className="h-6 w-6 sm:h-8 sm:w-8 text-red-600" />
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Main Content */}
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-white shadow-sm h-auto">
+          <TabsList className="grid w-full grid-cols-5 bg-white shadow-sm h-auto">
             <TabsTrigger value="overview" className="text-xs sm:text-sm px-2 py-2">Overview</TabsTrigger>
             <TabsTrigger value="findings" className="text-xs sm:text-sm px-2 py-2">
               Findings <span className="hidden sm:inline">({review.findings.length})</span>
@@ -183,6 +206,9 @@ const ReviewDetail = () => {
             </TabsTrigger>
             <TabsTrigger value="files" className="text-xs sm:text-sm px-2 py-2">
               Files <span className="hidden sm:inline">({review.filesAnalyzed})</span>
+            </TabsTrigger>
+            <TabsTrigger value="performance" className="text-xs sm:text-sm px-2 py-2">
+              Performance
             </TabsTrigger>
           </TabsList>
 
@@ -322,6 +348,49 @@ const ReviewDetail = () => {
                   {fileAnalysis.map((file, index) => (
                     <FileAnalysisCard key={index} fileData={file} />
                   ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="performance" className="space-y-6">
+            <Card className="bg-white shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5" />
+                  Analysis Performance
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                      <span className="font-medium text-slate-700">LLM Provider</span>
+                      <span className="text-slate-900 font-mono text-sm">{review.analysisPerformance.llmProvider}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                      <span className="font-medium text-slate-700">Model Used</span>
+                      <code className="bg-slate-100 px-2 py-1 rounded text-sm">{review.analysisPerformance.modelUsed}</code>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                      <span className="font-medium text-slate-700">Start Time</span>
+                      <span className="text-slate-900">{review.analysisPerformance.startTime}</span>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                      <span className="font-medium text-slate-700">End Time</span>
+                      <span className="text-slate-900">{review.analysisPerformance.endTime}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                      <span className="font-medium text-slate-700">Total Duration</span>
+                      <Badge variant="outline" className="bg-blue-100 text-blue-800">{review.analysisPerformance.totalDuration}</Badge>
+                    </div>
+                    <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                      <span className="font-medium text-slate-700">Average per File</span>
+                      <Badge variant="outline" className="bg-green-100 text-green-800">{review.analysisPerformance.averagePerFile}</Badge>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

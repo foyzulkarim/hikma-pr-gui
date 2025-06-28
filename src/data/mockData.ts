@@ -1,4 +1,3 @@
-
 export interface Finding {
   id: string;
   severity: 'critical' | 'high' | 'medium' | 'low';
@@ -23,6 +22,8 @@ export interface Review {
   findings: Finding[];
   filesAnalyzed: number;
   linesOfCode: number;
+  linesAdded: number;
+  linesRemoved: number;
   semantic: {
     summary: string;
     impact: string;
@@ -33,6 +34,14 @@ export interface Review {
     performance: number;
     maintainability: number;
     standards: number;
+  };
+  analysisPerformance: {
+    llmProvider: string;
+    modelUsed: string;
+    startTime: string;
+    endTime: string;
+    totalDuration: string;
+    averagePerFile: string;
   };
 }
 
@@ -55,6 +64,8 @@ export const mockReviews: Review[] = [
     qualityScore: 85,
     filesAnalyzed: 8,
     linesOfCode: 245,
+    linesAdded: 127,
+    linesRemoved: 34,
     findings: [
       {
         id: 'f1',
@@ -104,6 +115,14 @@ export const mockReviews: Review[] = [
       performance: 82,
       maintainability: 88,
       standards: 91
+    },
+    analysisPerformance: {
+      llmProvider: 'http://localhost:1234',
+      modelUsed: 'google/gemma-3-1b',
+      startTime: '28/06/2025, 12:20:29 pm',
+      endTime: '28/06/2025, 12:20:40 pm',
+      totalDuration: '11s',
+      averagePerFile: '1.4s'
     }
   },
   {
@@ -117,6 +136,8 @@ export const mockReviews: Review[] = [
     qualityScore: 92,
     filesAnalyzed: 12,
     linesOfCode: 487,
+    linesAdded: 423,
+    linesRemoved: 18,
     findings: [
       {
         id: 'f4',
@@ -155,6 +176,14 @@ export const mockReviews: Review[] = [
       performance: 85,
       maintainability: 94,
       standards: 96
+    },
+    analysisPerformance: {
+      llmProvider: 'http://localhost:1234',
+      modelUsed: 'google/gemma-3-1b',
+      startTime: '28/06/2025, 12:18:15 pm',
+      endTime: '28/06/2025, 12:18:31 pm',
+      totalDuration: '16s',
+      averagePerFile: '1.3s'
     }
   },
   {
@@ -168,6 +197,8 @@ export const mockReviews: Review[] = [
     qualityScore: 68,
     filesAnalyzed: 3,
     linesOfCode: 156,
+    linesAdded: 89,
+    linesRemoved: 45,
     findings: [
       {
         id: 'f6',
@@ -206,6 +237,14 @@ export const mockReviews: Review[] = [
       performance: 45,
       maintainability: 78,
       standards: 85
+    },
+    analysisPerformance: {
+      llmProvider: 'http://localhost:1234',
+      modelUsed: 'google/gemma-3-1b',
+      startTime: '28/06/2025, 12:15:22 pm',
+      endTime: '28/06/2025, 12:15:28 pm',
+      totalDuration: '6s',
+      averagePerFile: '2.0s'
     }
   }
 ];

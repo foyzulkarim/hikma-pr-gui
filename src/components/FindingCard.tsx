@@ -1,8 +1,9 @@
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, AlertCircle, Info, Zap } from "lucide-react";
+import { AlertTriangle, AlertCircle, Info, Zap, ChevronDown, ChevronRight } from "lucide-react";
 import { Finding } from "@/data/mockData";
 
 interface FindingCardProps {
@@ -11,6 +12,8 @@ interface FindingCardProps {
 }
 
 const FindingCard = ({ finding, detailed = false }: FindingCardProps) => {
+  const [isExpanded, setIsExpanded] = useState(detailed);
+
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
       case 'critical':
@@ -59,43 +62,58 @@ const FindingCard = ({ finding, detailed = false }: FindingCardProps) => {
   return (
     <Card className={`bg-white shadow-sm border-l-4 ${getBorderColor(finding.severity)}`}>
       <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className={getSeverityColor(finding.severity)}>
-                {getSeverityIcon(finding.severity)}
-                {finding.severity.toUpperCase()}
-              </Badge>
-              <Badge variant="outline" className="bg-slate-100 text-slate-700">
-                {finding.type}
-              </Badge>
-              <Badge variant="outline" className="bg-purple-100 text-purple-700">
-                {finding.plugin}
-              </Badge>
-            </div>
-            
-            <h4 className="font-semibold text-slate-900">{finding.title}</h4>
-            
-            <div className="text-sm text-slate-600">
-              <span className="font-mono bg-slate-100 px-2 py-1 rounded">
-                {finding.file}:{finding.line}
-              </span>
-            </div>
-            
-            <p className="text-slate-700">{finding.description}</p>
-            
-            {detailed && (
-              <div className="mt-3 p-3 bg-green-50 rounded-lg border border-green-200">
-                <h5 className="font-medium text-green-800 mb-1">Recommendation:</h5>
-                <p className="text-sm text-green-700">{finding.recommendation}</p>
+        <div className="space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div className="flex-1 space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className={getSeverityColor(finding.severity)}>
+                  {getSeverityIcon(finding.severity)}
+                  <span className="ml-1">{finding.severity.toUpperCase()}</span>
+                </Badge>
+                <Badge variant="outline" className="bg-slate-100 text-slate-700">
+                  {finding.type}
+                </Badge>
+                <Badge variant="outline" className="bg-purple-100 text-purple-700 hidden sm:inline-flex">
+                  {finding.plugin}
+                </Badge>
               </div>
-            )}
+              
+              <h4 className="font-semibold text-slate-900 text-sm sm:text-base">{finding.title}</h4>
+              
+              <div className="text-xs sm:text-sm text-slate-600">
+                <span className="font-mono bg-slate-100 px-2 py-1 rounded text-xs">
+                  {finding.file}:{finding.line}
+                </span>
+              </div>
+            </div>
+            
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="flex items-center gap-1 text-xs sm:text-sm whitespace-nowrap"
+            >
+              {isExpanded ? (
+                <>
+                  <ChevronDown className="h-3 w-3" />
+                  Hide Details
+                </>
+              ) : (
+                <>
+                  <ChevronRight className="h-3 w-3" />
+                  View Details
+                </>
+              )}
+            </Button>
           </div>
           
-          {!detailed && (
-            <Button variant="outline" size="sm">
-              View Details
-            </Button>
+          <p className="text-slate-700 text-sm">{finding.description}</p>
+          
+          {isExpanded && (
+            <div className="mt-3 p-3 bg-green-50 rounded-lg border border-green-200">
+              <h5 className="font-medium text-green-800 mb-1 text-sm">Recommendation:</h5>
+              <p className="text-sm text-green-700">{finding.recommendation}</p>
+            </div>
           )}
         </div>
       </CardContent>

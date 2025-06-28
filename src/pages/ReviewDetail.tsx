@@ -426,10 +426,10 @@ const FileAnalysisCard = ({ fileData }: { fileData: any }) => {
                 {fileData.file}
               </div>
               <div className="p-3 space-y-1">
-                <div className="text-red-600">- const oldFunction = () => {'{'}</div>
+                <div className="text-red-600">- const oldFunction = () =&gt; {'{'}</div>
                 <div className="text-red-600">-   // old implementation</div>
                 <div className="text-red-600">- {'}'}</div>
-                <div className="text-green-600">+ const newFunction = () => {'{'}</div>
+                <div className="text-green-600">+ const newFunction = () =&gt; {'{'}</div>
                 <div className="text-green-600">+   // improved implementation</div>
                 <div className="text-green-600">+   // with better error handling</div>
                 <div className="text-green-600">+ {'}'}</div>
